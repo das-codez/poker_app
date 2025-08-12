@@ -1,15 +1,38 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import { Tabs } from 'expo-router'
+import { Ionicons } from '@expo/vector-icons'
+import useTheme from '@/hooks/useTheme'
 
 const _layout = () => {
+  const {colors} = useTheme()
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textMuted,
+        tabBarStyle:{
+          backgroundColor: colors.surface,
+          borderTopWidth: 1,
+          borderTopColor: colors.border,
+          height: 90,
+          paddingBottom: 30,
+          paddingTop: 10
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "600"
+        },
+        headerShown: false,
+      }}
+    >
         <Tabs.Screen
         name='index'
         options={{
             title:"Game",
-            
+            tabBarIcon: ({color, size}) => (
+              <Ionicons name='flash-outline' size={size} color={color}/>
+            )
         }}
         />
         

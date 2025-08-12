@@ -12,7 +12,7 @@ const Header = () => {
     const homeStyles = createHomeStyles(colors);
     const players = useQuery(api.players.getPlayer);
     const completedCount = players ? players.filter((player) => player.sentMoney).length : 0;
-    const totalPot = players ? players.reduce((sum, player) => sum + (player.buyIn || 0), 0) : 0;
+    const totalPot = players ? players.filter((player) => player.sentMoney).reduce((sum, player) => sum + (player.buyIn || 0), 0) : 0;
     const total = players ? players.length : 0;
 
     const progPercentage = total > 0 ? (completedCount / total) * 100 : 0;

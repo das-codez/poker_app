@@ -29,3 +29,14 @@ export const deletePlayer = mutation({
         await ctx.db.delete(args.id);
     }
 })
+
+export const togglePlayer = mutation({
+    args:{id:v.id("players")},
+    handler: async(ctx, args) => {
+        const player = await ctx.db.get(args.id)
+        if(!player)throw new ConvexError("Player not found")
+        await ctx.db.patch(args.id, {
+        sentMoney: !player.sentMoney
+    })
+    }
+})

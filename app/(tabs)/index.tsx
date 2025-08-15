@@ -16,7 +16,10 @@ export default function Index() {
  const {colors} = useTheme();
  const homeStyles = createHomeStyles(colors);
 
+
+ const deletePlayer = useMutation(api.players.deletePlayer);
  const togglePlayer = useMutation(api.players.togglePlayer)
+
  const handleTogglePlayer = async(id:Id<"players">) => {
   try{
     await togglePlayer({id})
@@ -24,6 +27,12 @@ export default function Index() {
     console.log("Error toggling player", error);
     Alert.alert("Error", "Failed to toggle player");
   }
+ }
+ const handleDeletePlayer = async (id: Id<"players">, name: string) => {
+  Alert.alert("Delete Player", `Are you sure you want to remove ${name}`, [
+    {text: "Cancel", style:"cancel"},
+    {text:"Delete", style:"destructive", onPress: () => deletePlayer({id})}
+  ])
  }
 
  const renderPlayer = ({item}:{item:Player}) => {
@@ -63,6 +72,14 @@ export default function Index() {
           >
             {item.name} {item.buyIn.toFixed(2)}$
           </Text>
+          <View style={homeStyles.todoActions}>
+            <TouchableOpacity onPress={() => handleDeletePlayer(item._id, item.name)} activeOpacity={0.8}>
+              <LinearGradient colors={colors.gradients.danger} style={homeStyles.actionButton}>
+                <Ionicons name="trash" size={14} color="#fff"/>
+                
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
         </View>
       </LinearGradient>
     </View>
